@@ -1,0 +1,36 @@
+From ad5181ee0d0f16690f1f00ca13b8309a9403dcbb Mon Sep 17 00:00:00 2001
+From: Chang Yang <yangchang@deepin.org>
+Date: Wed, 10 Jan 2024 18:38:48 +0800
+Subject: [PATCH] add initial load of modules
+
+---
+ lib/init.sh | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/lib/init.sh b/lib/init.sh
+index dd5b90a..cc53fdc 100755
+--- a/lib/init.sh
++++ b/lib/init.sh
+@@ -17,6 +17,14 @@ init_base()
+     ln -s fd/2          /dev/stderr
+ }
+ 
++load_modules()
++{
++    { IFS=,; set -- $modules_load; unset IFS; }
++    for _mod; do
++        modprobe $_mod
++    done
++}
++
+ eval_hooks()
+ {
+     _type=$1
+@@ -113,6 +121,7 @@ trap panic EXIT
+ 
+ init_base
+ parse_cmdline
++load_modules
+ eval_hooks init
+ mount_root
+ eval_hooks init.late

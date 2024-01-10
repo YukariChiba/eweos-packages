@@ -2,7 +2,7 @@
 
 pkgname=tinyramfs
 pkgver=0.1.0
-pkgrel=9
+pkgrel=10
 pkgdesc="Tiny initramfs generator written in POSIX shell"
 arch=('any')
 url="https://github.com/illiliti/tinyramfs"
@@ -14,13 +14,15 @@ source=(
   "0-add-live.patch"
   "1-fix-kernel-args.patch"
   "2-add-plymouth-support.patch"
+  "3-modload.patch"
 )
 backup=("etc/$pkgname/config")
 sha512sums=('4f8eeb445cd277d1a535424b5f33c71670e46dfc1edd0cece08913db31f2f5f021d632e14fc43c5764d2ae331d7d8a3390b5064bbf28314a84fe13e1f4682bfc'
             'd0f0afe7b8f2f32ff6b6a49d11ef58dc4976b609748781799d0209cea9ef43c423267007252c16168eeb8f295a99caa287519348348597885891d47da8f2a946'
             'b9ec43f8299492dad57e84b482d050b7120522c86fb8cda30cb4ffcaf46bfb739618422c5f2fb852d9e11030e38e181b6bd56673e3dbeb1432d40be37d998f1d'
             '971d0a230de4274ad028f31f58d363f7e85e81f09218f9459df44324e8e1f781445e77a90b037e44dbb644b201ac9a169b039b02f9cc0ab63cd64726a21a5a22'
-            '4a0a9c44625b9dbabd969ab93dc794f37b7ba222eb0a5b3213010dd3ad96cdad6aefd73dea9ea7d7f2446be4f0cafde17731d3f027f8173ead33e52c0825a518')
+            '4a0a9c44625b9dbabd969ab93dc794f37b7ba222eb0a5b3213010dd3ad96cdad6aefd73dea9ea7d7f2446be4f0cafde17731d3f027f8173ead33e52c0825a518'
+            'e162915ac82adfee10ad6cf12db031f54ebf4bd7bf2c92e2af1a9d1b12422d9973dbc8542205495bdd377ea5b0c17491e8a8e7375967306e47a9bf95d7703822')
 
 prepare()
 {
