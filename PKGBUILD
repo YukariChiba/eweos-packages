@@ -2,7 +2,7 @@
 
 pkgname=plymouth
 pkgver=24.004.60
-pkgrel=1
+pkgrel=2
 pkgdesc='Graphical boot splash screen'
 arch=(x86_64 aarch64 riscv64)
 url='https://www.freedesktop.org/wiki/Software/Plymouth/'
@@ -21,10 +21,11 @@ prepare() {
   sed -i '1s/^/#include <rpmatch.h>\n/' src/libply/ply-command-parser.c
   sed -i 's/--sparse=always//g' scripts/plymouth-populate-initrd.in
   sed -i 's@--reference="$PLYMOUTH_SYSROOT$_file"@$(stat -c "%a" "$PLYMOUTH_SYSROOT$_file")@g' scripts/plymouth-populate-initrd.in
+  sed -i 's@add_input_devices_to_renderer (manager, renderer);@@g' src/libply-splash-core/ply-device-manager.c
 }
 
 build() {
-  ewe-meson build $pkgname-$pkgver -D gtk=disabled -D systemd-integration=false -D docs=false
+  ewe-meson build $pkgname-$pkgver -D gtk=disabled -D systemd-integration=false -D docs=false -D udev=disabled
   meson compile -C build
 }
 
