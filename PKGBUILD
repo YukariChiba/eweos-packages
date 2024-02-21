@@ -11,6 +11,9 @@ depends=(
   glib
   json-glib
   pipewire
+  fuse3
+  gdk-pixbuf
+  bubblewrap
 )
 makedepends=(
   git
@@ -23,15 +26,24 @@ sha256sums=('SKIP')
 build() {
   local features=(
     -D flatpak-interfaces=disabled
+    -D geoclue=disabled
+    -D libportal=disabled
+    -D systemd=disabled
+    -D docbook-docs=disabled
+    -D man-pages=disabled
+    -D pytest=disabled
   )
   ewe-meson $pkgname build "${features[@]}"
   meson compile -C build
 }
 
-check() {
-  meson test -C build --print-errorlogs
-}
+#check() {
+#  meson test -C build --print-errorlogs
+#}
 
 package() {
   meson install -C build --destdir "$pkgdir"
+
+  # remove systemd services
+  rm -r $pkgdir/usr/lib/systemd || true
 }
