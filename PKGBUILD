@@ -2,13 +2,13 @@
 # Contributor: George Rawlinson <grawlinson@archlinux.org>
 
 pkgbase=openldap
-pkgname=('libldap' 'openldap')
+pkgname=('libldap')
 pkgver=2.6.3
 pkgrel=1
 arch=(x86_64 aarch64 riscv64)
 url="https://www.openldap.org/"
 license=('custom')
-makedepends=('cyrus-sasl' 'e2fsprogs' 'util-linux-libs' 'chrpath' 'unixodbc' 'libsodium' 'libltdl' 'mandoc-soelim' 'libxcrypt' 'libldap')
+makedepends=('cyrus-sasl' 'e2fsprogs' 'util-linux-libs' 'chrpath' 'unixodbc' 'libsodium' 'libltdl' 'mandoc-soelim' 'libxcrypt')
 options=('!makeflags' 'emptydirs')
 source=(
   https://www.openldap.org/software/download/OpenLDAP/openldap-release/${pkgbase}-${pkgver}.tgz
@@ -121,54 +121,4 @@ package_libldap()
 
   # license
   install -Dm644 -t "${pkgdir}/usr/share/licenses/${pkgname}" LICENSE
-}
-
-package_openldap()
-{
-  pkgdesc="Lightweight Directory Access Protocol (LDAP) client and server"
-  depends=("libldap>=${pkgver}" 'libltdl' 'unixodbc' 'perl' 'libsodium')
-  backup=('etc/openldap/slapd.conf' 'etc/openldap/slapd.ldif')
-
-  cd ${pkgbase}-${pkgver}
-  for dir in clients servers doc/man/man{1,5,8}; do
-    pushd ${dir}
-    make DESTDIR="${pkgdir}" install
-    popd
-  done
-
-  # install extra modules
-  for module in "${_extra_modules[@]}"; do
-    make -C "contrib/slapd-modules/$module" \
-      prefix=/usr \
-      libexecdir=/usr/lib \
-      sysconfdir=/etc/openldap \
-      DESTDIR="$pkgdir" install
-
-    # passwd/sha2 has no man page, so skip it
-    if [ "$module" != "passwd/sha2" ]; then
-      install -m644 -t "$pkgdir/usr/share/man/man5" \
-        "contrib/slapd-modules/$module/slapo-$module.5"
-    fi
-  done
-
-  # should be in libldap package
-  rm "${pkgdir}"/usr/share/man/man5/ldap.conf.5
-
-  # let systemd-tmpfiles generate this directory
-  rm -r "${pkgdir}"/run
-
-  # get rid of duplicate conf files
-  rm "${pkgdir}"/etc/openldap/*.default
-
-  ln -s ../lib/slapd "${pkgdir}"/usr/bin/slapd
-
-  chown root:439 "${pkgdir}"/etc/openldap/slapd.{conf,ldif}
-  chmod 640 "${pkgdir}"/etc/openldap/slapd.{conf,ldif}
-
-  # systemd integration
-  install -Dm644 "${srcdir}"/openldap.tmpfiles "${pkgdir}"/usr/lib/tmpfiles.d/openldap.conf
-  install -Dm644 "${srcdir}"/openldap.sysusers "${pkgdir}"/usr/lib/sysusers.d/openldap.conf
-
-  # license
-  install -Dm644 -t "${pkgdir}"/usr/share/licenses/"${pkgname}" LICENSE
 }
