@@ -3,7 +3,7 @@
 pkgbase=gtk4
 pkgname=(gtk4 gtk-update-icon-cache)
 pkgver=4.15.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Multi-platform toolkit for creating graphical user interfaces"
 url="https://www.gtk.org/"
 arch=(x86_64 aarch64 riscv64)
@@ -33,7 +33,6 @@ makedepends=(
   vulkan-headers
   vulkan-icd-loader
   glslang
-  lld
 )
 checkdepends=(weston)
 source=(
@@ -42,7 +41,11 @@ source=(
 )
 sha256sums=('b90ca46d38e2eeb7b74f55ef5fba29f4d05f0595bf819cb7f4182ba8a2eebadd'
             '5837dfc23c8a7c0621c88c3ccd3e22215d2a0d2e4ea96583c0a605be2f0675ca'
-            '5914fd62534d7e8e9df49962162cbb27e3ff5497494d4af2e334af5018bb5eb2')
+	    '5914fd62534d7e8e9df49962162cbb27e3ff5497494d4af2e334af5018bb5eb2')
+
+prepare(){
+  sed -i 's/can_use_objcopy_for_resources = true/can_use_objcopy_for_resources = false/' gtk-$pkgver/meson.build
+}
 
 build()
 {
@@ -58,7 +61,7 @@ build()
     -D build-tests=false
     -D build-testsuite=false
   )
-  LD=ld.lld ewe-meson gtk-$pkgver build "${meson_options[@]}"
+  ewe-meson gtk-$pkgver build "${meson_options[@]}"
   meson compile -C build
 }
 
