@@ -1,0 +1,53 @@
+From adf3ab5b8f3a6029fd6bf0680f617c3ed5a41f39 Mon Sep 17 00:00:00 2001
+From: YunQiang Su <yunqiang.su@cipunited.com>
+Date: Mon, 16 Oct 2023 03:13:33 -0400
+Subject: [PATCH] GIO/test: Use as instruction: incbin, instead of cc -r
+
+In gio/test, we use cc -r to convert data file to elf objects.
+The problem of cc -r is that, it will use the default of ld,
+instead of the default of CC/CLFAGS. So sometimes, it
+will generate uncompatiable elf files.
+
+Let's use an asm file:
+	.data
+	.incbin DATAFILE
+and use CC/CFLAGS to comiple it.
+---
+ gio/tests/meson.build             | 10 +++++++---
+ gio/tests/test5.gresource.xml.asm |  2 ++
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+ create mode 100644 gio/tests/test5.gresource.xml.asm
+
+diff --git a/gio/tests/meson.build b/gio/tests/meson.build
+index 4ef3343ab3..49d44baa59 100644
+--- a/gio/tests/meson.build
++++ b/gio/tests/meson.build
+@@ -937,10 +937,14 @@ if not meson.is_cross_build()
+ 
+     # Create object file containing resource data
+     test_resources_binary = custom_target('test_resources.o',
+-      input : test_gresource_binary,
++      input : [test_gresource_binary, 'test5.gresource.xml.asm'],
+       output : 'test_resources.o',
+-      command : cc.cmd_array() + ['-Wl,-z,noexecstack', '-r', '-Wl,-b,binary',
+-                                  '-nostdlib', '@INPUT@', '-o','@OUTPUT@'])
++      command : cc.cmd_array() + ['-c',
++                                  '-x', 'assembler-with-cpp',
++                                  '-Wa,--noexecstack',
++                                  '-DDATAFILE="@INPUT0@"',
++                                  '@INPUT1@',
++                                  '-o','@OUTPUT@'])
+ 
+     # Rename symbol to match the one in the C file
+     if cc.get_id() == 'gcc' and host_system == 'windows'
+diff --git a/gio/tests/test5.gresource.xml.asm b/gio/tests/test5.gresource.xml.asm
+new file mode 100644
+index 0000000000..0415e3ed46
+--- /dev/null
++++ b/gio/tests/test5.gresource.xml.asm
+@@ -0,0 +1,2 @@
++.data
++.incbin DATAFILE
+-- 
+GitLab
+
