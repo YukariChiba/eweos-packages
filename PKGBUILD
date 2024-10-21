@@ -4,8 +4,8 @@
 pkgbase=openldap
 pkgname=('libldap')
 pkgver=2.6.3
-pkgrel=1
-arch=(x86_64 aarch64 riscv64)
+pkgrel=2
+arch=(x86_64 aarch64 riscv64 loongarch64)
 url="https://www.openldap.org/"
 license=('custom')
 makedepends=('cyrus-sasl' 'e2fsprogs' 'util-linux-libs' 'chrpath' 'unixodbc' 'libsodium' 'libltdl' 'mandoc-soelim' 'libxcrypt')
