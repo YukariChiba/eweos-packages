@@ -1,0 +1,37 @@
+# Maintainer: Ziyao <ziyao@disroot.org>
+
+pkgbase=x265
+pkgname=(libx265 x265)
+epoch=1
+pkgver=4.1
+pkgrel=1
+pkgdesc_libx265="x265/HEVC video coding library"
+pkgdesc_x265="video encoder for the H.265/HEVC standard"
+url="https://www.videolan.org/developers/x265.html"
+arch=(x86_64 aarch64 riscv64 loongarch64)
+license=(GPL-2.0-or-later)
+depends=(musl)
+makedepends=(nasm cmake samurai git)
+source=("https://bitbucket.org/multicoreware/x265_git/downloads/x265_$pkgver.tar.gz")
+sha256sums=('a31699c6a89806b74b0151e5e6a7df65de4b49050482fe5ebf8a4379d7af8f29')
+
+build() {
+	cmake x265_$pkgver/source -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr		\
+		-DCMAKE_BUILD_TYPE=Release		\
+		-DGIT_FOUND=True
+	cmake --build build
+	DESTDIR=fake cmake --install build
+}
+
+package_x265() {
+	depends+=(libx265)
+	mkdir -p "$pkgdir"/usr
+	mv fake/usr/bin "$pkgdir"/usr
+}
+
+package_libx265() {
+	provides=(libx265.so)
+	mkdir -p "$pkgdir"/usr
+	mv fake/usr/{lib,include} "$pkgdir"/usr
+}

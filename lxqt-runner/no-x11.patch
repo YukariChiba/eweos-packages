@@ -1,0 +1,79 @@
+diff --git a/dialog.cpp b/dialog.cpp
+index da8a1d9..337c337 100644
+--- a/dialog.cpp
++++ b/dialog.cpp
+@@ -55,7 +55,6 @@
+ #include <QScrollBar>
+ 
+ #include <KWindowSystem>
+-#include <KX11Extras>
+ 
+ #include <LayerShellQt/Shell>
+ #include <LayerShellQt/Window>
+@@ -287,11 +286,6 @@ void Dialog::showEvent(QShowEvent *event)
+             }
+         }
+     }
+-    else if (QGuiApplication::platformName() == QSL("xcb"))
+-    {
+-        connect(KX11Extras::self(), &KX11Extras::activeWindowChanged, this, &Dialog::onActiveWindowChanged);
+-        connect(KX11Extras::self(), &KX11Extras::currentDesktopChanged, this, &Dialog::onCurrentDesktopChanged);
+-    }
+     QDialog::showEvent(event);
+ }
+ 
+@@ -302,11 +296,6 @@ void Dialog::showEvent(QShowEvent *event)
+ void Dialog::hideEvent(QHideEvent *event)
+ {
+     QDialog::hideEvent(event);
+-    if (QGuiApplication::platformName() == QSL("xcb"))
+-    {
+-        disconnect(KX11Extras::self(), &KX11Extras::currentDesktopChanged, this, &Dialog::onCurrentDesktopChanged);
+-        disconnect(KX11Extras::self(), &KX11Extras::activeWindowChanged, this, &Dialog::onActiveWindowChanged);
+-    }
+ }
+ 
+ 
+@@ -462,7 +451,7 @@ void Dialog::showHide()
+ 
+     // Using KWindowSystem to detect the active window since
+     // QWidget::isActiveWindow is not working reliably.
+-    if (isVisible() && (KX11Extras::activeWindow() == winId()))
++    if (isVisible())
+     {
+         hide();
+     }
+@@ -470,7 +459,6 @@ void Dialog::showHide()
+     {
+         realign();
+         show();
+-        KX11Extras::forceActiveWindow(winId());
+         ui->commandEd->setFocus();
+         ui->commandEd->selectAll();
+     }
+@@ -492,7 +480,7 @@ void Dialog::realign()
+         screenNumber = screen ? screens.indexOf(screen) : 0;
+     }
+ 
+-    desktop = screens.at(screenNumber)->availableGeometry().intersected(KX11Extras::workArea(screenNumber));
++    desktop = screens.at(screenNumber)->availableGeometry();
+ 
+     QRect rect = this->geometry();
+     rect.moveCenter(desktop.center());
+@@ -584,7 +572,6 @@ void Dialog::onActiveWindowChanged(WId id)
+         if (mDesktopChanged)
+         {
+             mDesktopChanged = false;
+-            KX11Extras::forceActiveWindow(winId());
+         } else
+         {
+             hide();
+@@ -601,8 +588,6 @@ void Dialog::onCurrentDesktopChanged(int screen)
+ {
+     if (isVisible())
+     {
+-        KX11Extras::setOnDesktop(winId(), screen);
+-        KX11Extras::forceActiveWindow(winId());
+         //Note: workaround for changing desktop while runner is shown
+         // The KWindowSystem::forceActiveWindow may fail to correctly activate runner if there
+         // are any other windows on the new desktop (probably because of the sequence while WM

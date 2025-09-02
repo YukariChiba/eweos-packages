@@ -1,0 +1,7 @@
+type = process
+command = /sbin/getty $1 115200
+restart = true
+termsignal = HUP
+smooth-recovery = true
+depends-on = rc.target
+before = login.target

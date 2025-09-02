@@ -1,0 +1,22 @@
+diff --git a/Makefile.am b/Makefile.am
+index f639f7f..386c9dd 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -45,15 +45,14 @@ conf_DATA += profiles/network/network.conf
+ state_DATA =
+ endif
+ 
++dbussystembusdir = $(DBUS_SYSTEMBUSDIR)
++dbussystembus_DATA = src/org.bluez.service
+ if SYSTEMD
+ systemdsystemunitdir = $(SYSTEMD_SYSTEMUNITDIR)
+ systemdsystemunit_DATA = src/bluetooth.service
+ 
+ systemduserunitdir = $(SYSTEMD_USERUNITDIR)
+ systemduserunit_DATA =
+-
+-dbussystembusdir = $(DBUS_SYSTEMBUSDIR)
+-dbussystembus_DATA = src/org.bluez.service
+ endif
+ 
+ EXTRA_DIST += src/org.bluez.service

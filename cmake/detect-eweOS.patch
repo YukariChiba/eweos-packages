@@ -1,0 +1,16 @@
+diff --git a/Modules/GNUInstallDirs.cmake b/Modules/GNUInstallDirs.cmake
+index ed34c4a..823ae5e 100644
+--- a/Modules/GNUInstallDirs.cmake
++++ b/Modules/GNUInstallDirs.cmake
+@@ -345,6 +345,11 @@
+       set(${out_var} "arch linux")
+     elseif (EXISTS "/etc/debian_version")
+       set(${out_var} "debian")
++    else ()
++      cmake_host_system_information(RESULT __distro_id QUERY DISTRIB_ID)
++      if (__distro_id STREQUAL "ewe")
++        set(${out_var} "eweOS")
++      endif()
+     endif()
+   endif()
+   return(PROPAGATE ${out_var}) 

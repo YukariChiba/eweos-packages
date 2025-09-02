@@ -1,0 +1,45 @@
+# Maintainer: Yukari Chiba <i@0x7f.cc>
+
+pkgname=limine
+pkgver=9.6.1
+pkgrel=2
+pkgdesc="An advanced, portable, multiprotocol bootloader"
+arch=(x86_64 aarch64 riscv64 loongarch64)
+url="https://limine-bootloader.org/"
+license=('BSD-2-Clause')
+makedepends=('nasm' 'lld' 'mtools')
+optdepends=('efibootmgr: efi entries managing for limine-install')
+source=(
+  "https://github.com/limine-bootloader/limine/releases/download/v${pkgver}/${pkgname}-${pkgver}.tar.gz"
+  limine-mkconfig
+  limine.defaults
+  limine.conf
+  limine-install
+)
+sha256sums=('fc601e671d9286d0be568a8d3bf481f07e242cb81d2c073f440195c45e8899b7'
+            'b3a9bbf701bf641d5354a0611011ed1e161c01e57fd5c97f1de116cfdfaf35b7'
+            'b1d39bd3cc56b4d033f2ffe3c6f1eda8cbb0eb4788626e5041fcb56fa961ea86'
+            'f722aacb1e5865489483c14b950900998241fe6558e58875b1119579ef91a5e0'
+            '307eaea79af8eb9e9c1f6b5c6f17841f31e5a01856738cddecb20f7039c21094')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  local target_options=(
+    --enable-uefi-$CARCH
+    --enable-uefi-cd
+  )
+  [ $CARCH = x86_64 ] && target_options+=(--enable-bios --enable-bios-cd --enable-bios-pxe)
+  ./configure --prefix=/usr ${target_options[*]}
+  make
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+  install -Dm 644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  install -Dm 755 $srcdir/limine-mkconfig "$pkgdir/usr/bin/limine-mkconfig"
+  install -Dm 755 $srcdir/limine-install "$pkgdir/usr/bin/limine-install"
+  install -Dm 644 $srcdir/limine.defaults "$pkgdir/etc/default/limine"
+  install -Dm 644 $srcdir/limine.conf "$pkgdir/etc/limine.conf"
+}
+
