@@ -1,0 +1,31 @@
+Preinstall: filesystem pacman
+Preinstall: ca-certificates 
+ExpandFlags: preinstallexpand
+Support: makepkg base base-devel obs-enable-network
+
+Prefer: libxcrypt
+
+# fakeroot vs fakeroot-tcp
+Prefer: fakeroot
+# rust vs rust-bin/rust-nightly
+Prefer: rust
+# samurai vs ninja
+Prefer: ninja
+# gettext-tiny vs gettext
+Prefer: gettext-tiny
+# default font
+Prefer: ttf-dejavu
+# minizip-ng
+Prefer: minizip-ng
+# xdg-desktop-portal-impl
+Prefer: xdg-desktop-portal-gtk
+
+Prefer: ca-certificates
+Substitute: ca-certs ca-certificates
+
+# dont known why not preinstalled
+Preinstall: zstd
+
+Preinstall: sudo
+
+#ExportFilter: -any.pkg . x86_64 aarch64 riscv64
