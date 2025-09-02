@@ -1,0 +1,7 @@
+test:
+  steps:
+    - trigger_services:
+        project: home:yukari:ewe
+        package: _project
+  filters:
+    event: push
