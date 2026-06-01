@@ -2,11 +2,11 @@
 
 pkgname="hyprland"
 pkgver=0.55.2
-pkgrel=1
+pkgrel=2
 pkgdesc="A dynamic tiling Wayland compositor based on wlroots that doesn't sacrifice on its looks."
 arch=(x86_64 aarch64 riscv64 loongarch64)
 url="https://github.com/hyprwm/Hyprland"
-license=('BSD')
+license=('BSD-3-Clause')
 depends=(
   pixman
   wayland-protocols
@@ -31,6 +31,8 @@ depends=(
   re2
   muparser
   hyprwire
+  lcms2
+  lua55
 )
 makedepends=(
   git
