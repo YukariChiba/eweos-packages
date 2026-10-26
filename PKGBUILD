@@ -1,7 +1,7 @@
 # Maintainer: Julian Droske <juliandroske@outlook.com>
 
 pkgname=7zip
-pkgver=26.03
+pkgver=26.05
 pkgrel=1
 pkgdesc="Command-line file archiver with high compression ratio"
 arch=(x86_64 aarch64 riscv64 loongarch64)
@@ -22,10 +22,10 @@ depends=(
 # 	This patch modifies the search path so that 7z always search for plugins
 # 	(including 7z.so) under `/usr/lib/7zip` without any shell script wrappers.
 source=(
-  'https://www.7-zip.org/a/7z2501-src.tar.xz'
+  "https://github.com/ip7z/7zip/releases/download/$pkgver/7z${pkgver//./}-src.tar.xz"
   '0001-adjust-7z.so-load-path-for-eweos.patch'
 )
-sha256sums=('ed087f83ee789c1ea5f39c464c55a5c9d4008deb0efe900814f2df262b82c36e'
+sha256sums=('0b6080b8c3e7a579161d2d495224c0e51c467576cb4c7048b0ab485ef44cc22e'
             '9d3604f51ddcdee78631c31d90e93949cb41772a91f6d9b98b8fac5dc90a028a')
 
 prepare(){
@@ -70,6 +70,7 @@ package(){
 
   # Docs & licenses
   cp -a DOC "${pkgdir}/usr/share/doc/7zip/"
+  chmod -R u=rwX,go=rX "${pkgdir}/usr/share/doc/7zip/DOC"
   ln -s /usr/share/doc/7zip/DOC/{License,unRarLicense}.txt \
     "${pkgdir}/usr/share/licenses/7zip/"
 }
