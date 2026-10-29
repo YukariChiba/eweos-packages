@@ -1,6 +1,6 @@
 --- a/webrtc-sys/libwebrtc/build_linux.sh
 +++ b/webrtc-sys/libwebrtc/build_linux.sh
-@@ -16,6 +16,7 @@
+@@ -16,13 +16,14 @@
  
  arch=""
  profile="release"
@@ -8,6 +8,15 @@
  
  while [ "$#" -gt 0 ]; do
    case "$1" in
+     --arch)
+       arch="$2"
+-      if [ "$arch" != "x64" ] && [ "$arch" != "arm64" ]; then
+-        echo "Error: Invalid value for --arch. Must be 'x64' or 'arm64'."
++      if [ "$arch" != "x64" ] && [ "$arch" != "arm64" ] && [ "$arch" != "riscv64" ]; then
++        echo "Error: Invalid value for --arch. Must be 'x64', 'arm64' or 'riscv64'."
+         exit 1
+       fi
+       shift 2
 @@ -35,6 +36,14 @@
        fi
        shift 2
@@ -47,20 +56,25 @@
  if [ ! -e "$(pwd)/src" ]
  then
    gclient sync -D --no-history
-@@ -70,6 +85,12 @@
+@@ -70,7 +85,17 @@
  git apply "$COMMAND_DIR/patches/add_licenses.patch" -v --ignore-space-change --ignore-whitespace --whitespace=nowarn
  git apply "$COMMAND_DIR/patches/ssl_verify_callback_with_native_handle.patch" -v --ignore-space-change --ignore-whitespace --whitespace=nowarn
  git apply "$COMMAND_DIR/patches/add_deps.patch" -v --ignore-space-change --ignore-whitespace --whitespace=nowarn
++if [ "$arch" = "riscv64" ]; then
++  git apply "$COMMAND_DIR/patches/riscv-ffmpeg.patch" -v --ignore-space-change --ignore-whitespace --whitespace=nowarn
++fi
+ 
 +git apply "$COMMAND_DIR/patches/webrtc-0001-do-not-link-against-libatomic.patch" -v --ignore-space-change --ignore-whitespace --whitespace=nowarn
 +git apply "$COMMAND_DIR/patches/webrtc-0002-fix-glibcisms.patch" -v --ignore-space-change --ignore-whitespace --whitespace=nowarn
 +git apply "$COMMAND_DIR/patches/webrtc-0003-use-system-build-tools.patch" -v --ignore-space-change --ignore-whitespace --whitespace=nowarn
 +git apply "$COMMAND_DIR/patches/webrtc-0004-use-opengl-pkg-config.patch" -v --ignore-space-change --ignore-whitespace --whitespace=nowarn
 +git apply "$COMMAND_DIR/patches/webrtc-0005-use-eweos-clang-runtime-layout.patch" -v --ignore-space-change --ignore-whitespace --whitespace=nowarn
 +git apply "$COMMAND_DIR/patches/webrtc-0006-include-spa-pod-iter.patch" -v --ignore-space-change --ignore-whitespace --whitespace=nowarn
- 
++
  # Disable CREL (compact relocations). Chromium's build enables experimental
  # CREL via -Wa,--crel which causes segfaults on aarch64-linux (and is known
-@@ -86,7 +107,9 @@
+ # broken on arm32 and s390x too).
+@@ -86,7 +111,9 @@
  
  mkdir -p "$ARTIFACTS_DIR/lib"
  
@@ -71,7 +85,7 @@
  
  debug="false"
  if [ "$profile" = "debug" ]; then
-@@ -116,8 +139,22 @@
+@@ -116,8 +143,22 @@
    symbol_level=0 \
    enable_iterator_debugging=false \
    use_rtti=true \
@@ -95,7 +109,7 @@
  # generate ninja files
  gn gen "$OUTPUT_DIR" --root="src" --args="${args}"
  
-@@ -127,7 +164,11 @@
+@@ -127,7 +168,11 @@
  # make libwebrtc.a
  # don't include nasm
  ar -rc "$ARTIFACTS_DIR/lib/libwebrtc.a" `find "$OUTPUT_DIR/obj" -name '*.o' -not -path "*/third_party/nasm/*"`

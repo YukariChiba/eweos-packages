@@ -6,11 +6,14 @@ pkgrel=1
 _livekit_commit=0a1c519cfce9b365229026b55de9b9dbdb6fed3c
 _scap_commit=4afea48c3b002197176fb19cd0f9b180dd36eaac
 pkgdesc='A high-performance, multiplayer code editor from the creators of Atom and Tree-sitter'
-arch=(x86_64 aarch64)
+arch=(x86_64 aarch64 riscv64)
 url='https://zed.dev'
 license=(GPL-3.0-or-later AGPL-3.0-or-later Apache-2.0)
 depends=(alsa-lib curl dbus fontconfig git glib llvm-libs libxkbcommon musl nodejs
          openssl pipewire sqlite vulkan-driver vulkan-icd-loader wayland zlib zstd)
+if [ "$CARCH" = riscv64 ]; then
+  depends+=(libdrm mesa)
+fi
 makedepends=(rust clang lld cargo cargo-about cmake git gn ninja protobuf libpulse
              python-httplib2 linux-headers bsd-compat-headers vulkan-headers)
 optdepends=('npm: improved JSON language support (needed to run json-language-server)'
@@ -31,6 +34,11 @@ options=(!lto) # too much memory usage for such a big Rust project
 # webrtc-0005: Downstream, use the eweOS clang runtime library layout.
 # webrtc-0006: Downstream, include the SPA pod iterator declarations required by
 # the current PipeWire headers.
+# riscv-ffmpeg: Downstream, provide the RISC-V FFmpeg configuration and source lists,
+# based on https://github.com/hack3ric/livekit-rust-sdks/commit/441c34cfa9ec1f65429381aa946bea438f8c571e
+# webrtc-0007: Downstream, support riscv64 in the webrtc-sys build script.
+# 0004: Downstream, disable crash reporting on riscv64 because minidump-writer has
+# no riscv64 support.
 # 0001: Downstream, build Zed without X11 dependencies on Wayland-only eweOS.
 # 0002: Downstream, use the packaged cargo-about and accept its advisory warnings.
 # 0003: Downstream, avoid the unstable Path::is_empty API with the eweOS Rust version.
@@ -44,22 +52,28 @@ source=("https://github.com/zed-industries/zed/archive/v$pkgver/$pkgname-$pkgver
         webrtc-0004-use-opengl-pkg-config.patch
         webrtc-0005-use-eweos-clang-runtime-layout.patch
         webrtc-0006-include-spa-pod-iter.patch
+        riscv-ffmpeg.patch
+        webrtc-0007-support-riscv64-build.patch
         0001-disable-x11-everywhere.patch
         0002-use-packaged-cargo-about.patch
-        0003-use-stable-path-empty-check.patch)
+        0003-use-stable-path-empty-check.patch
+        0004-disable-riscv-crash-reporting.patch)
 sha256sums=('59139825acbb7b22b60ba075bf15915051e330b5c55efc13a66e6dfa8f429dcf'
             '82439498056e8c98254abc6eb6f490b5e65b56c936524dc6117b11e6900a7b17'
             '8cd50e118ee2e7b2aed8af011a7de588908eb55816336ce650f28cc452c19b33'
-            '4149937ef8b53f4e273e0fa6f680b2cd585ff957c23bc78e97f263e7e3880a89'
+            '4c82357b356ea93238a940976815b5b96fecaa21bf78eb8aae74986a4d58f966'
             'f01d01249e0304f3dc7b8415ad58a9a834a742a7295023f6a730212ddfefc4d3'
             'f808b7cb3f2dfc88d9837b8d88078748e0e3d95564824a2df6eeff5ae1776583'
             '075b2115140f3f84d86f8abffc95a1c786be15379e84950a6528a46a726561c3'
             '068e5f8c4ad79917b5499e5a8a2042b4b88d75ded97b8b41c4117cee0c120167'
             'a3ccaf5a4e12906758cc2bd9b8cd4f9f901facf40f56a8a2cdcf371b48be76a4'
             'e61ea4b4a6f2669c9f81fa5b5dfb3632cee9ffd41f3b92f9a8b14eb1d02c5a1c'
+            '2cabc7c7343a2c028e5c59620e82dcaa07baa0b7035fb2f9e64cfcc9a1524a20'
+            '80a3a21cb945ac042ac755216047638c88b6957931d8a932f1a05e0ba5e31cf0'
             '6fe11fcd7279c001fdafc3c03ae02ee474d73f9f0ae5e4523a2046bd1e8a2a3c'
             'fd90534e310e884ffdeb9c8454513ed646a12bf63479e56cc27385c2470103d1'
-            '3ca0b3961f7c3d42eee4ffba4805834b02f9973ec6eb08c91c3f3d85d22703a1')
+            '3ca0b3961f7c3d42eee4ffba4805834b02f9973ec6eb08c91c3f3d85d22703a1'
+            'ade846c37f1b0958c8ff341620e628a5647f72a86e6776c50a7b75a139fb96d6')
 
 _binname=zeditor
 _appid=dev.zed.Zed
@@ -72,8 +86,10 @@ prepare() {
     ../webrtc-0003-use-system-build-tools.patch \
     ../webrtc-0004-use-opengl-pkg-config.patch \
     ../webrtc-0005-use-eweos-clang-runtime-layout.patch \
-    ../webrtc-0006-include-spa-pod-iter.patch
+    ../webrtc-0006-include-spa-pod-iter.patch \
+    ../riscv-ffmpeg.patch
   patch -Np1 -i ../livekit-0001-webrtc-eweos-fixes.patch
+  patch -Np1 -i ../webrtc-0007-support-riscv64-build.patch
   popd
 
   cd $pkgname-$pkgver
@@ -81,9 +97,19 @@ prepare() {
   patch -Np1 -i ../0001-disable-x11-everywhere.patch
   patch -Np1 -i ../0002-use-packaged-cargo-about.patch
   patch -Np1 -i ../0003-use-stable-path-empty-check.patch
+  patch -Np1 -i ../0004-disable-riscv-crash-reporting.patch
   echo -e "\n[patch.'https://github.com/zed-industries/scap']\nzed-scap = { path = '$srcdir/scap' }" >>Cargo.toml
   cargo update -p zed-scap
   cargo fetch --locked --target $RUSTHOST
+
+  # The cargo build links webrtc-sys from the git checkout fetched above, not
+  # from the tree patched in $srcdir, so apply the build script changes there too.
+  for checkout in "$HOME"/.cargo/git/checkouts/livekit-rust-sdks-*/*; do
+    if [ -f "$checkout/webrtc-sys/build.rs" ] &&
+      ! grep -q 'target_arch == "riscv64"' "$checkout/webrtc-sys/build.rs"; then
+      patch -d "$checkout" -Np1 -i "$srcdir/webrtc-0007-support-riscv64-build.patch"
+    fi
+  done
 
   sed crates/zed/resources/zed.desktop.in \
     -e "s/\\\$DO_STARTUP_NOTIFY/true/g" \
