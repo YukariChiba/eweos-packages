@@ -1,0 +1,19 @@
+--- a/test/tst_xdgdirs.cpp
++++ b/test/tst_xdgdirs.cpp
+@@ -35,6 +35,7 @@
+ #include <QTest>
+ #include <QFileInfo>
+ #include <QTemporaryDir>
++#include <unistd.h>
+ 
+ using namespace Qt::Literals::StringLiterals;
+ 
+@@ -294,6 +295,8 @@
+ void tst_xdgdirs::testNonWritableLocations()
+ {
+     setNonWritableLocations();
++    if (::geteuid() == 0)
++        QSKIP("Running as root: non-writable locations remain writable");
+     QCOMPARE(XdgDirs::configHome(true), QString());
+     QCOMPARE(XdgDirs::dataHome(true), QString());
+     QCOMPARE(XdgDirs::cacheHome(true), QString());
