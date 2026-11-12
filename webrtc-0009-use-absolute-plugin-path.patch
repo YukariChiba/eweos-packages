@@ -1,0 +1,13 @@
+--- a/tools/protoc_wrapper/protoc_wrapper.py
++++ b/tools/protoc_wrapper/protoc_wrapper.py
+@@ -169,7 +169,9 @@
+   if options.plugin_out_dir:
+     plugin_options = FormatGeneratorOptions(options.plugin_options)
+     protoc_cmd += [
+-      "--plugin", "protoc-gen-plugin=" + os.path.relpath(options.plugin),
++      # eweOS: pass an absolute path so protoc does not have to resolve the
++      # plugin relative to its working directory.
++      "--plugin", "protoc-gen-plugin=" + os.path.realpath(options.plugin),
+       "--plugin_out", plugin_options + options.plugin_out_dir
+     ]
+ 
