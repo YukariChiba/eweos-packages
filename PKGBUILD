@@ -2,7 +2,7 @@
 
 pkgname=libqtxdg
 pkgver=4.5.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Library providing freedesktop.org XDG specs implementations for Qt"
 arch=("x86_64" "aarch64" "riscv64" "loongarch64")
 url="https://github.com/lxqt/$pkgname"
@@ -23,9 +23,12 @@ build() {
 }
 
 check() {
-  cd build
-  export QT_QPA_PLATFORM=offscreen
-  ctest --output-on-failure
+  (
+    cd build
+    export QT_QPA_PLATFORM=offscreen
+    # testNonWritableLocations fails as root because permission checks do not apply.
+    ctest --output-on-failure -E '^tst_xdgdirs$'
+  )
 }
 
 package() {
