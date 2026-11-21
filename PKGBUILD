@@ -2,7 +2,7 @@
 
 pkgname=libaccounts-glib
 pkgver=1.27
-pkgrel=1
+pkgrel=2
 pkgdesc='Glib-based client library for accessing the online accounts database'
 arch=(x86_64 aarch64 riscv64 loongarch64)
 url='https://gitlab.com/accounts-sso/libaccounts-glib'
@@ -17,6 +17,7 @@ makedepends=(check
              python-gobject
              python-packaging
              vala)
+checkdepends=(dbus)
 source=(https://gitlab.com/accounts-sso/libaccounts-glib/-/archive/VERSION_$pkgver/libaccounts-glib-VERSION_$pkgver.tar.gz)
 sha256sums=('a8407a5897a2e425ea1aa955ecf88485dd2fd417919de275b27c781a5d0637a5')
 
@@ -27,7 +28,7 @@ build() {
 }
 
 check() {
-  meson test -C build
+  dbus-run-session meson test -C build --print-errorlogs
 }
 
 package() {
