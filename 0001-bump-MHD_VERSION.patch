@@ -1,0 +1,5 @@
+--- a/src/include/microhttpd.h
++++ b/src/include/microhttpd.h
+@@ -104 +104 @@
+-#define MHD_VERSION 0x01001000
++#define MHD_VERSION 0x01001100
