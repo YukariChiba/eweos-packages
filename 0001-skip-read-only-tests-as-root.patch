@@ -1,0 +1,26 @@
+--- a/tests/check_ag.c
++++ b/tests/check_ag.c
+@@ -267,6 +267,11 @@
+     GError *error = NULL;
+     gboolean ok;
+ 
++    if (geteuid () == 0) {
++        /* chmod-based permission checks cannot make the database read-only for root */
++        return;
++    }
++
+     set_read_only ();
+ 
+     manager = ag_manager_new ();
+@@ -663,6 +668,11 @@
+     const AgAccountId expected_id = 4;
+     GError *error = NULL;
+     guint reg_id;
++
++    if (geteuid () == 0) {
++        /* chmod-based permission checks cannot make the database read-only for root */
++        return;
++    }
+ 
+     set_read_only ();
+ 
