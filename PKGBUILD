@@ -4,7 +4,7 @@ pkgbase=plasma-integration
 pkgname=plasma-integration
 pkgver=6.8.3
 _dirver=$(echo $pkgver | cut -d. -f1-3)
-pkgrel=1
+pkgrel=2
 pkgdesc='Qt Platform Theme integration plugins for the Plasma workspaces'
 arch=(x86_64 aarch64 riscv64 loongarch64)
 url='https://kde.org/plasma-desktop/'
@@ -57,7 +57,9 @@ build() {
 }
 
 check() {
-  QT_QPA_PLATFORM=offscreen QT_QPA_PLATFORMTHEME=kde \
+  # The test needs an icon theme in XDG_DATA_DIRS.
+  XDG_DATA_DIRS=/usr/share \
+    QT_QPA_PLATFORM=offscreen QT_QPA_PLATFORMTHEME=kde \
     QT_PLUGIN_PATH="$srcdir/build/bin" \
     dbus-run-session -- ctest --test-dir build --output-on-failure
 }
