@@ -4,7 +4,7 @@ pkgbase=plasma-integration
 pkgname=plasma-integration
 pkgver=6.8.3
 _dirver=$(echo $pkgver | cut -d. -f1-3)
-pkgrel=2
+pkgrel=3
 pkgdesc='Qt Platform Theme integration plugins for the Plasma workspaces'
 arch=(x86_64 aarch64 riscv64 loongarch64)
 url='https://kde.org/plasma-desktop/'
@@ -34,7 +34,7 @@ depends=(llvm-libs
 makedepends=(extra-cmake-modules
              plasma-wayland-protocols
              qt6-base-devel)
-checkdepends=(dbus)
+checkdepends=(breeze-icons dbus)
 groups=(plasma)
 # 0001: Downstream, support WITH_X11=OFF
 source=(
