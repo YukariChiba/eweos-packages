@@ -1,0 +1,52 @@
+--- a/src/opentimelineio/deserialization.cpp
++++ b/src/opentimelineio/deserialization.cpp
+@@ -13 +12,0 @@
+-#include <rapidjson/cursorstreamwrapper.h>
+@@ -16,0 +16,47 @@
++
++namespace OTIO_rapidjson {
++
++template <typename InputStream>
++class CursorStreamWrapper
++{
++public:
++    typedef typename InputStream::Ch Ch;
++
++    explicit CursorStreamWrapper(InputStream &is)
++        : _is(is)
++        , _line(1)
++        , _column(0)
++    {
++    }
++
++    Ch Peek() const { return _is.Peek(); }
++
++    Ch Take()
++    {
++        Ch c = _is.Take();
++        if (c == '\n') {
++            ++_line;
++            _column = 0;
++        } else {
++            ++_column;
++        }
++        return c;
++    }
++
++    size_t Tell() { return _is.Tell(); }
++
++    Ch *PutBegin() { return _is.PutBegin(); }
++    void Put(Ch c) { _is.Put(c); }
++    void Flush() { _is.Flush(); }
++    size_t PutEnd(Ch *c) { return _is.PutEnd(c); }
++
++    size_t GetLine() const { return _line; }
++    size_t GetColumn() const { return _column; }
++
++private:
++    InputStream &_is;
++    size_t _line;
++    size_t _column;
++};
++
++} // namespace OTIO_rapidjson
