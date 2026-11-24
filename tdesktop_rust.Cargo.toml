@@ -1,0 +1,8 @@
+[package]
+name = "tdesktop_rust"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tlottie = { version = "1.0.6", path = "../tlottie-1.0.6", features = ["c-api"] }
+wallet-engine = { version = "0.0.7", path = "../wallet-engine-e59e0d89d7ee90c388bf36e3334c5b276f396697" }

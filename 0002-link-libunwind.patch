@@ -1,0 +1,14 @@
+diff --git a/cmake/external/tdesktop_rust/CMakeLists.txt b/cmake/external/tdesktop_rust/CMakeLists.txt
+--- a/cmake/external/tdesktop_rust/CMakeLists.txt
++++ b/cmake/external/tdesktop_rust/CMakeLists.txt
+@@ -59,3 +59,10 @@
+         ws2_32
+     )
+ endif()
++
++if (UNIX AND NOT APPLE)
++    target_link_libraries(external_tdesktop_rust
++    INTERFACE
++        unwind
++    )
++endif()
