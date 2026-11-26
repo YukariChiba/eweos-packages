@@ -1,8 +1,8 @@
 # Maintainer: Yukari Chiba <i@0x7f.cc>
 
 pkgname=python-lxml
-pkgver=6.0.2
-pkgrel=3
+pkgver=6.1.3
+pkgrel=1
 pkgdesc="Python3 binding for the libxml2 and libxslt libraries"
 arch=(x86_64 aarch64 riscv64 loongarch64)
 license=('BSD' 'custom')
@@ -16,7 +16,7 @@ makedepends=('python-setuptools' 'python-pygments' 'cython')
 # FIXME: missing dependencies
 #checkdepends=('python-cssselect' 'python-html5lib' 'python-beautifulsoup4')
 source=("https://github.com/lxml/lxml/archive/lxml-$pkgver.tar.gz")
-sha512sums=('164dc5e38e394f4396faf0b06729039f6807a227e1a2755a6991e6dce569cc64244d5edfd2cf2af0d4e845d7155a76f6e391e32f3d5aac21dff3c07cbbe06460')
+sha512sums=('e18963c88d4aae8fba06c7d5d5c8364263eeb3cf8a3f27ea14e1262c6e84449786e5646408066003c1681191001d35bbc766eda7886093903c2777d30d6f82c9')
 
 prepare() {
   mv lxml-lxml-$pkgver lxml-$pkgver
