@@ -2,8 +2,8 @@
 
 pkgname=python-imagesize
 _pyname=imagesize_py
-pkgver=1.4.1
-pkgrel=3
+pkgver=2.0.1
+pkgrel=1
 pkgdesc='Module for analyzing image headers and returns image size or DIP.'
 url='https://github.com/shibukawa/imagesize_py'
 arch=(any)
@@ -12,7 +12,7 @@ depends=(python)
 makedepends=(python-build python-installer python-setuptools python-wheel)
 checkdepends=(python-pytest)
 source=("https://github.com/shibukawa/imagesize_py/archive/refs/tags/$pkgver.tar.gz")
-sha256sums=('c353adbba9d9e92fc880ff85279c362a9d4fc580c4783d1949e905200cb8b15b')
+sha256sums=('0fdd765d9768fb0b5d3005a925e7a76b0a5a965b3c4a3228226cbe99c3f24c31')
 
 prepare() {
 	# the link now 404....
