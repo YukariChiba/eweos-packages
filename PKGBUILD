@@ -2,7 +2,7 @@
 
 _name=scikit-build-core
 pkgname=python-$_name
-pkgver=1.0.3
+pkgver=1.1.1
 pkgrel=1
 pkgdesc='A next generation Python CMake adaptor and Python API for plugins'
 arch=(any)
@@ -11,7 +11,7 @@ license=(Apache-2.0)
 depends=(cmake ninja python python-packaging python-pathspec)
 makedepends=(python-build python-hatch-vcs python-installer)
 source=($pkgname-$pkgver.tar.gz::https://github.com/scikit-build/$_name/archive/refs/tags/v$pkgver.tar.gz)
-sha256sums=(32954222ccaaac8b02a0490eecb9eba38cca2b850f365b576666b2bcae66ce84)
+sha256sums=('901af204a4fa9dadcfb285db49ad79932750c5404c122bcafce37519fdcc2636')
 
 build() {
   cd $_name-$pkgver
