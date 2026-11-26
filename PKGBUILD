@@ -1,8 +1,8 @@
 # Maintainer: Yukari Chiba <i@0x7f.cc>
 
 pkgname=python-lark-parser
-pkgver=1.2.2
-pkgrel=2
+pkgver=1.3.1
+pkgrel=1
 pkgdesc='A modern parsing library'
 arch=('any')
 url='https://github.com/lark-parser/lark'
@@ -34,7 +34,7 @@ source=(
   "$pkgname::git+$url#tag=$pkgver"
   'github.com-Hardmath123-nearley::git+https://github.com/Hardmath123/nearley'
 )
-sha512sums=('f20915d7c94a774f04679949d8a302cceda0408fec1aa02c68aaed2bb4855fd1de0a2b05b48b6ceed842aa64663eb42e3ea570ae5ff05836af3fd3cc36b274e7'
+sha512sums=('2e59f61567478da199c5619941f8bf7b422ff5e8e615712b56613374cacdb610775f344c5016ad55b92fdbea57f9290bd63deb32aabc0f2428c422d4246b35e7'
             'SKIP')
 
 prepare() {
