@@ -2,8 +2,8 @@
 
 _pkgbase=dbus-python
 pkgname=python-dbus
-pkgver=1.3.2
-pkgrel=4
+pkgver=1.5.1
+pkgrel=1
 pkgdesc='Python bindings for D-Bus'
 arch=(x86_64 aarch64 riscv64 loongarch64)
 url='https://www.freedesktop.org/wiki/Software/dbus/'
@@ -18,10 +18,11 @@ makedepends=(
   meson
   python-pyproject-metadata
   python-tomli
+  python-gobject
 )
 optdepends=('python-gobject: D-Bus services via PyGI')
 source=("git+https://gitlab.freedesktop.org/dbus/$_pkgbase.git#tag=$_pkgbase-$pkgver")
-sha256sums=('SKIP')
+sha256sums=('d7b1b28867e20a042b7e42fbdfac8ab8fb5a8d1255e57d9a8ff99d0e373b0318')
 
 build() {
   ewe-meson $_pkgbase build
