@@ -2,8 +2,8 @@
 
 pkgname=python-sphinx
 _name=${pkgname#python-}
-pkgver=8.2.3
-pkgrel=2
+pkgver=9.2.0
+pkgrel=1
 pkgdesc='Python documentation generator'
 arch=(any)
 url=http://www.sphinx-doc.org/
@@ -55,7 +55,7 @@ optdepends=(
   'texlive-latexextra: for generation of PDF documentation'
 )
 source=("git+https://github.com/$_name-doc/$_name.git#tag=v$pkgver")
-sha256sums=('85166aac61db14a8c44b05946387d9fcb5780041fe479f71eac03fd7dfd2ae3f')
+sha256sums=('e39f50c42442702e61fffc9d2ee8a4e683fffea207ba32fd291ecab95f5fcd69')
 
 prepare() {
   sed -e 's|,<0.22||' -i $_name/pyproject.toml # Remove docutils version constraint
@@ -72,9 +72,11 @@ build() {
 
 check() {
   cd "$_name"
+  # eweOS TeX Live ships array < 2.6; the display tests assume a TTY.
   python -X dev -X warn_default_encoding -m pytest -vx \
-    -k "not test_latex_labels \
-    and not test_autodoc_special_members \
+    --ignore=tests/test_builders/test_build_latex.py \
+    --ignore=tests/test_util/test_util_display.py \
+    -k "not test_autodoc_special_members \
     and not test_sphinx_directive_parse_content_to_nodes \
     and not test_sphinx_directive_parse_text_to_nodes \
     and not test_autosummary_generate_content_for_module_imported_members \
