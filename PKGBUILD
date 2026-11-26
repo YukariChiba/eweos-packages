@@ -1,7 +1,7 @@
 # Maintainer: Yukari Chiba <i@0x7f.cc>
 
 pkgname=python-pytest-benchmark
-pkgver=5.3.0
+pkgver=5.3.1
 pkgrel=1
 pkgdesc='A py.test fixture for benchmarking code'
 arch=('any')
@@ -12,7 +12,7 @@ makedepends=('python-setuptools' 'python-build' 'python-installer' 'python-wheel
 #checkdepends=('python-pygal' 'python-pygaljs' 'python-freezegun' 'mercurial' 'python-aspectlib'
 #              'python-pytest-xdist' 'python-elasticsearch' 'git')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/ionelmc/pytest-benchmark/archive/v$pkgver.tar.gz")
-sha512sums=('1720cee833b7dd1234afdbe621f0d1582b95e42c7bc0ee2a42217ee05117ea5735d82e6b383f42d72a18450c1cbaf4f0cc3444b59c0c0c9d21f87d9182527e98')
+sha512sums=('593cc0136a736ce331189d5720ab0b70de414d7614d3adcb53ed7d6772418d346bf08d28be7b9bf9bcb9af3ee6c6880c2d8ff69ed96aa9601c4673e72dfc9292')
 
 prepare() {
   cd pytest-benchmark-$pkgver
