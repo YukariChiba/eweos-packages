@@ -2,7 +2,7 @@
 
 pkgname=mpv
 pkgver=0.41.0
-pkgrel=7
+pkgrel=8
 pkgdesc='a free, open source, and cross-platform media player'
 arch=(x86_64 aarch64 riscv64 loongarch64)
 license=('GPL-2.0-or-later')
@@ -13,7 +13,6 @@ depends=(
   'libdrm' 'libjpeg' 'libxkbcommon' 'libdisplay-info' 'libsixel'
   'mesa' 'libglvnd' 'libva' 'vulkan-icd-loader')
 makedepends=('git' 'meson' 'wayland-protocols' 'linux-headers' 'vulkan-headers')
-checkdepends=('weston')
 source=("https://github.com/mpv-player/mpv/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('ee21092a5ee427353392360929dc64645c54479aefdb5babc5cfbb5fad626209')
 
@@ -109,19 +108,6 @@ build() {
     "${_misc_features[@]}" \
     "${_features[@]}"
   meson compile -C build
-}
-
-check() {
-  export XDG_RUNTIME_DIR="$PWD/runtime-dir" WAYLAND_DISPLAY=wayland-5
-  mkdir -p -m 700 "$XDG_RUNTIME_DIR"
-
-  weston --backend=headless-backend.so \
-    --socket="$WAYLAND_DISPLAY" \
-    --idle-time=0 &
-  _w=$!
-  trap "kill $_w; wait" EXIT
-
-  # meson test -C build --print-errorlogs
 }
 
 package() {
