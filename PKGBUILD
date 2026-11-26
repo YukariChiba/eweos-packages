@@ -2,8 +2,8 @@
 
 pkgname=python-simplejson
 _pyname=${pkgname#*-}
-pkgver=3.20.2
-pkgrel=2
+pkgver=4.2.0
+pkgrel=1
 pkgdesc='A simple, fast, extensible JSON encoder/decoder for Python'
 url='https://simplejson.readthedocs.io/'
 arch=(x86_64 aarch64 riscv64 loongarch64)
@@ -12,7 +12,7 @@ depends=(python musl)
 makedepends=(python-build python-installer python-setuptools python-wheel)
 checkdepends=(python-pytest)
 source=("https://github.com/simplejson/simplejson/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('3a41f4f14526100c5306c6fc3e004adf0d097c6148b1604bd2c1a45edbedb856')
+sha256sums=('3fcc633b62870f543402713625752fd91850981288a0cfd1cfa51b129d9bdf40')
 
 build() {
 	cd "$_pyname-$pkgver"
