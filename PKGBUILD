@@ -1,8 +1,8 @@
 # Maintainer: Yukari Chiba <i@0x7f.cc>
 
 pkgname=python-idna
-pkgver=3.11
-pkgrel=2
+pkgver=3.20
+pkgrel=1
 pkgdesc="Internationalized Domain Names in Applications (IDNA)"
 arch=('any')
 license=('BSD-3-Clause')
@@ -11,7 +11,7 @@ depends=('python')
 makedepends=('python-build' 'python-installer' 'python-flit-core')
 checkdepends=('python-pytest')
 source=("https://github.com/kjd/idna/archive/v$pkgver/$pkgname-$pkgver.tar.gz")
-sha512sums=('d74305f2cda17516e225361804721f45028c05bee9f9510f4c2f9980aaed42fecad0781f22da55416e8e6dcd9fbc8981dae829d0dae532c15153fcd0a9975570')
+sha512sums=('fd3afe8d531a68dde34d18f749765b6e5556aee22c0c2eaf42032ffbb588b833100dd9a7f85eb4e81ddba6d0be051a953d2573f9f98f08ed91c187cd2f8c6613')
 
 build() {
    cd idna-$pkgver
