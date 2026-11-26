@@ -2,8 +2,8 @@
 
 pkgname=python-rpds-py
 _pyname=rpds
-pkgver=0.24.0
-pkgrel=2
+pkgver=2026.11.1
+pkgrel=1
 pkgdesc='Python bindings to the Rust rpds crate for persistent data structures'
 url='https://rpds.readthedocs.io/'
 arch=(x86_64 aarch64 riscv64 loongarch64)
@@ -13,7 +13,7 @@ makedepends=(python-build python-installer python-setuptools
 	     python-maturin)
 checkdepends=(python-pytest)
 source=("https://github.com/crate-py/rpds/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('b925b62d9779a4ec71659a12344469033c353fe9da00ca3fb44f197839de5656')
+sha256sums=('7bc144d53398a21ec8863bc0a70e7179cdb60f59859e27198a75aa1a9808c942')
 
 prepare() {
 	cd "$_pyname-$pkgver"
