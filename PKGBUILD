@@ -2,8 +2,8 @@
 
 _pkgname=poetry-core
 pkgname=python-${_pkgname}
-pkgver=1.9.1
-pkgrel=2
+pkgver=2.5.0
+pkgrel=1
 pkgdesc='Poetry PEP 517 Build Backend & Core Utilities'
 arch=(any)
 url="https://github.com/python-poetry/${_pkgname}"
@@ -27,10 +27,11 @@ makedepends=(python-build python-installer)
 #              python-tomli-w
 #              python-virtualenv)
 _archive="$_pkgname-$pkgver"
+# 0001: Downstream, use system packages instead of bundled copies
 source=("$url/archive/$pkgver/$_archive.tar.gz"
-        "$pkgname-1.9.0-devendor.patch")
-sha256sums=('ca398d26f666e09162847ddd7f8d6ff6b9fb07003c6d43dd68e80d0a78331aa7'
-            'b6136544236192c80f3c34f266023fb285b753321679c29e61b69b26913c66d2')
+        "0001-devendor.patch")
+sha256sums=('e5a6fa94749ba460c56898d2b9649e3779b9f20f225d75be2fdff0ec43a3449d'
+            'df315d516bdf22250b0386324c82ce5b386fe9eff67985b92317da91e375ea7b')
 
 prepare() {
 	_patch_ "$_archive"
