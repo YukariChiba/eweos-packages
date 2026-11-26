@@ -2,8 +2,8 @@
 
 pkgname=python-pdm-backend
 _pyname=${pkgname#*-}
-pkgver=2.4.4
-pkgrel=3
+pkgver=2.5.0
+pkgrel=1
 pkgdesc='Build backend used by PDM that supports latest packaging standard'
 url='https://backend.pdm-project.org/'
 arch=(any)
@@ -17,7 +17,7 @@ checkdepends=(python-pytest git mercurial python-setuptools)
 #	Cannot figure out why upstream vendors the dependencies.
 source=("https://github.com/pdm-project/pdm-backend/archive/refs/tags/$pkgver.tar.gz"
 	"0001-python-pdm-backend-2.4.3-devendor.patch")
-sha256sums=('d77661cd03121a89e323db364863793bf170a93dcb0d7abb328772c386527f93'
+sha256sums=('a6a92d1bba7d1e4aa05a4111b1cc07fff587de525104e337c69e48a9e86c2a17'
             '2bc1924abc74c66ea3056ddefdcf7a7e9b76c4ca9f87a0bbddc1a5da73a99eaa')
 
 prepare() {
