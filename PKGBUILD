@@ -1,8 +1,8 @@
 # Maintainer: Yao Zi <ziyao@disroot.org>
 
 pkgname=python-tempora
-pkgver=5.8.0
-pkgrel=2
+pkgver=5.8.1
+pkgrel=1
 pkgdesc='Objects and routines pertaining to date and time (tempora).'
 url='https://github.com/jaraco/tempora'
 arch=(any)
@@ -12,7 +12,14 @@ makedepends=(python-build python-wheel python-installer python-setuptools
 	     python-setuptools-scm git)
 # checkdepends=(python-freezegun python-pytest python-pytest-freezegun)
 source=("git+$url.git#tag=v$pkgver")
-sha256sums=('6cd75331757dcfa85efe444fe8666866a39fc6a45aea08af00b188818560c20c')
+sha256sums=('cb786843522393e347ff29f2aebfd219619d447c72f9f591b44e841526a1907f')
+
+prepare() {
+	cd tempora
+	# Upstream replaced LICENSE with the unpackaged coherent.licensed build dependency.
+	sed -i '/coherent.licensed/d' pyproject.toml
+	git show v5.8.0:LICENSE > LICENSE
+}
 
 build () {
 	cd tempora
