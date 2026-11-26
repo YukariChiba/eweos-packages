@@ -3,8 +3,8 @@
 pkgname=python-referencing
 _pyname=${pkgname#*-}
 _referencingsuite_commit=b74fd4535fed598519d23c8cd74e5e8c77489440
-pkgver=0.36.2
-pkgrel=3
+pkgver=0.37.0
+pkgrel=1
 pkgdesc='An implementation-agnostic implementation of JSON reference resolution'
 url='https://referencing.readthedocs.io/'
 arch=(any)
@@ -15,8 +15,8 @@ makedepends=(python-build python-installer python-setuptools python-wheel
 checkdepends=(python-pytest)
 source=("https://github.com/python-jsonschema/referencing/archive/refs/tags/v$pkgver.tar.gz"
 	"git+https://github.com/python-jsonschema/referencing-suite.git#commit=$_referencingsuite_commit")
-sha256sums=('5618f8b72ecac48bbda2b927e6ec7589dfeddcceae01a8d8b64a7a92e4b4417e'
-	    'SKIP')
+sha256sums=('83541258d7e1c5b7e4507319b9c7e92b6aa7d538711f071fa02315de9a56e971'
+            'c04946527a8c28b44e7b033e663f942a1baa444b1f45d37273074d02fdac4357')
 
 build() {
 	cd "$_pyname-$pkgver"
