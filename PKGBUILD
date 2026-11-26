@@ -2,8 +2,8 @@
 
 pkgname=python-cattrs
 _pipname=${pkgname#python-}
-pkgver=25.3.0
-pkgrel=2
+pkgver=26.2.1
+pkgrel=1
 pkgdesc='Complex custom class converters for attrs'
 arch=(any)
 #url='https://catt.rs'
@@ -19,7 +19,7 @@ makedepends=(git
              python-hatchling)
 _archive="$_pipname"
 source=("git+$url.git#tag=v$pkgver")
-sha256sums=('96da693caf59a1153f84079ec9eec5f918e2fedfc77365abd63e84242bbd9667')
+sha256sums=('1b71e643e636fab7a890b2c38ddeffa363b44e1cd20ca3df0d8601db5611dfd3')
 
 build() {
 	cd "$_archive"
