@@ -1,8 +1,8 @@
 # Maintainer: Yukari Chiba <i@0x7f.cc>
 
 pkgname=python-snowballstemmer
-pkgver=2.2.0
-pkgrel=2
+pkgver=3.1.1
+pkgrel=1
 arch=('any')
 pkgdesc="Snowball stemming library collection for Python"
 url='https://snowballstem.org'
@@ -11,7 +11,7 @@ depends=('python')
 optdepends=('python-pystemmer: for improved performance')
 makedepends=('python-setuptools')
 source=("https://pypi.python.org/packages/source/s/snowballstemmer/snowballstemmer-$pkgver.tar.gz")
-sha512sums=('f1dee83e06fc79ffb250892fe62c75e3393b9af07fbf7cde413e6391870aa74934302771239dea5c9bc89806684f95059b00c9ffbcf7340375c9dd8f1216cd37')
+sha512sums=('a36320c5c21b91137b6924025edac292891d3141a12cfe84fb1ee44f19980eeb35494bebf6c8cb9879c9633e06e27aa73f850157fbc074e926713ad47368b269')
 
 build() {
   cd "$srcdir"/snowballstemmer-$pkgver
