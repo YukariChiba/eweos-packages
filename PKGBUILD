@@ -1,7 +1,7 @@
 # Maintainer: Yukari Chiba <i@0x7f.cc>
 
 pkgname=python-cairo
-pkgver=1.29.1
+pkgver=1.29.2
 pkgrel=1
 pkgdesc="Python bindings for the cairo graphics library"
 url="https://pycairo.readthedocs.io/en/latest/"
@@ -11,7 +11,7 @@ depends=(cairo python)
 makedepends=(meson)
 checkdepends=(python-pytest)
 source=(https://github.com/pygobject/pycairo/releases/download/v$pkgver/pycairo-$pkgver.tar.gz)
-sha256sums=('4fbd26b4af24c9787d84cf5448e34eb8dca064b732479aaecd03109520eebd5f')
+sha256sums=('3e69fff74fe64f5ba2dfa31f67c6bdf26413342574047437d2ac520d35e9a489')
 
 build() {
   ewe-meson pycairo-$pkgver build
