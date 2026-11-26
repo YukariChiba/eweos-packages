@@ -1,8 +1,8 @@
 # Maintainer: Yukari Chiba <i@0x7f.cc>
 
 pkgname=python-cryptography
-pkgver=48.0.0
-pkgrel=2
+pkgver=50.0.2
+pkgrel=1
 pkgdesc="A package designed to expose cryptographic recipes and primitives to Python developers"
 arch=('x86_64' 'aarch64' 'riscv64' 'loongarch64')
 license=('Apache')
@@ -12,7 +12,7 @@ makedepends=('git' 'python-setuptools-rust' 'python-build' 'python-installer' 'p
 checkdepends=('python-pytest' 'python-iso8601' 'python-pretend'
 	      'python-hypothesis' 'python-pytz' 'python-certifi')
 source=("git+https://github.com/pyca/cryptography.git#tag=$pkgver")
-sha256sums=('e5a21c178cff7a1e5ae369b6ff9bf1bf246504b1644f48cb9ceb10006aff4876')
+sha256sums=('9f210c06287d6babe5f1d1b6d3a991dc395a1a4cef4e2278653af10afe53803a')
 
 prepare() {
   cd cryptography
