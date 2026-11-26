@@ -1,7 +1,7 @@
 # Maintainer: Yao Zi <ziyao@disroot.org>
 
 pkgname=python-argcomplete
-pkgver=3.7.2
+pkgver=3.8.0
 pkgrel=1
 pkgdesc='Python and tab completion, better together.'
 url='https://kislyuk.github.io/argcomplete/'
@@ -12,7 +12,7 @@ makedepends=(python-build python-wheel python-installer python-setuptools
 	     python-setuptools-scm git python-hatchling python-hatch-vcs)
 checkdepends=(python-pexpect python-pip zsh)
 source=("git+https://github.com/kislyuk/argcomplete.git#tag=v$pkgver")
-sha256sums=('941450e81037cb0e4d3467e9810bdad7132c28218f34543082ef14c0d241e9a2')
+sha256sums=('93dd3abd68da951e4c519dea2a3ace8271ae778cbfa0796aef59b7f8c7af2ac6')
 
 build () {
 	cd argcomplete
