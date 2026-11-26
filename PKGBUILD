@@ -1,8 +1,8 @@
 # Maintainer: Yukari Chiba <i@0x7f.cc>
 
 pkgname=python-pluggy
-pkgver=1.6.0
-pkgrel=2
+pkgver=1.7.0
+pkgrel=1
 pkgdesc="Plugin and hook calling mechanisms for python"
 arch=('any')
 url="https://github.com/pytest-dev/pluggy"
@@ -11,7 +11,7 @@ depends=('python')
 makedepends=('git' 'python-setuptools-scm' 'python-setuptools' 'python-build' 'python-installer' 'python-wheel')
 checkdepends=('python-pytest')
 source=("git+https://github.com/pytest-dev/pluggy.git#tag=$pkgver")
-sha512sums=('4164457975bae12c798ba87fca38ef776468cb3b879c95696be8525778b9bc83fe9947f6ec707b478f79e93f6d4ddd9cb669d6bbc59929e107c447c4237f61f5')
+sha512sums=('4ca2a29d7bf679c7d30a1c463f363dc66f343a8f18e45a1e74d4a5e2f9e3c52865b068bc26fd97d85bfd9be152e22a9973716e5eef01088851f89f699332d5d0')
 
 build() {
   cd pluggy
