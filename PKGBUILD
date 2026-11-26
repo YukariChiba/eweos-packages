@@ -2,8 +2,8 @@
 
 pkgname=python-docutils
 _pyname=${pkgname#*-}
-pkgver=0.22.4
-pkgrel=3
+pkgver=0.23
+pkgrel=1
 pkgdesc='An open-source text processing system for processing plaintext documentation into useful formats'
 url='https://docutils.sourceforge.io/'
 arch=(any)
@@ -13,11 +13,11 @@ optdepends=('python-pygments: for syntax highlighting')
 makedepends=(python-build python-installer python-setuptools python-flit-core)
 checkdepends=(python-pytest)
 source=("https://files.pythonhosted.org/packages/source/d/docutils/docutils-$pkgver.tar.gz")
-sha256sums=('4db53b1fde9abecbb74d91230d32ab626d94f6badfc575d6db9194a49df29968')
+sha256sums=('746f5060322511280a1e50eb76846ed6bf2342984b2ac04dc42caa1a8d78799e')
 
 build () {
 	cd $_pyname-$pkgver
-	python -m build --wheel --no-isolation
+	python -m build --wheel --no-isolation --skip-dependency-check
 }
 
 # missing python-pillow
