@@ -1,8 +1,8 @@
 # Maintainer: Yukari Chiba <i@0x7f.cc>
 
 pkgname=python-editables
-pkgver=0.5
-pkgrel=3
+pkgver=0.6
+pkgrel=1
 pkgdesc='Python library for creating editable wheels'
 arch=('any')
 url='https://github.com/pfmoore/editables'
@@ -16,7 +16,7 @@ makedepends=(
 )
 checkdepends=('python-pytest')
 source=("$pkgname::git+$url#tag=$pkgver")
-sha256sums=('SKIP')
+sha256sums=('6aee50a3b3d9e0f6f9cb3f16fcb7b36f75e378f5e2591bbbaac6edccbea89073')
 
 build() {
   cd "$pkgname"
