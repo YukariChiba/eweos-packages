@@ -2,8 +2,8 @@
 
 _name=roman-numerals
 pkgname=python-roman-numerals-py
-pkgver=3.1.0
-pkgrel=2
+pkgver=4.1.0
+pkgrel=1
 pkgdesc='Manipulate well-formed Roman numerals'
 arch=(any)
 url=https://github.com/AA-Turner/roman-numerals/tree/master/python
@@ -17,7 +17,7 @@ makedepends=(
 )
 checkdepends=(python-pytest)
 source=("git+https://github.com/AA-Turner/roman-numerals.git#tag=v$pkgver")
-sha256sums=('fd42d3f0dca78981111ebc601635881dd4aeb7471e755aab370135a7cc4a6ac4')
+sha256sums=('6075c056a7847890069562694281857290789d73f2089c03385f5fa571d6e1c3')
 
 prepare() {
   cd $_name
@@ -31,7 +31,8 @@ build() {
 
 check() {
   cd $_name/python
-  pytest
+  # Upstream passes enumerate() to parametrize; ignored until it is fixed for pytest 9.
+  pytest -W ignore::pytest.PytestRemovedIn10Warning
 }
 
 package() {
