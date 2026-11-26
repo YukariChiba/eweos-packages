@@ -2,8 +2,8 @@
 
 pkgname=python-typing_extensions
 _name=${pkgname#python-}
-pkgver=4.15.0
-pkgrel=2
+pkgver=4.16.0
+pkgrel=1
 pkgdesc='Backported and Experimental Type Hints for Python 3.8+'
 arch=(any)
 url=https://github.com/python/typing_extensions
@@ -13,8 +13,15 @@ makedepends=(git python-build python-flit-core python-installer)
 checkdepends=(python-tests python-typing_extensions)
 provides=(python-typing-extensions)
 conflicts=(python-typing-extensions)
-source=("git+${url}.git#tag=${pkgver}")
-sha256sums=('e11f88483891ab8573ba6c2fbe49378ca8491774aa4100995ec49fbcfd79d95e')
+# 0001: Downstream, skip a test invalidated by CPython 3.13 literal deduplication
+source=("git+${url}.git#tag=${pkgver}"
+        "0001-skip-test-args.patch")
+sha256sums=('3fd066549a36de50bf51524a6df9ca44c2e3557ced750c5a46dc5d4cb83fc726'
+            'bf5d4df2581b77693655761d718bbdc1c431c76313675eac917bf612e16bc99a')
+
+prepare() {
+  _patch_ "$_name"
+}
 
 build() {
   cd "${_name}"
